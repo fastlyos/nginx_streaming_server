@@ -1,7 +1,7 @@
-#define NGX_CONFIGURE " --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/run/nginx.pid --lock-path=/var/lock/nginx.lock --user=www-data --group=www-data --build=Ubuntu --with-http_ssl_module --with-stream --with-mail=dynamic --with-http_mp4_module --with-http_flv_module --add-module=/home/hmcheng/Downloads/nginx-rtmp-module-master"
+#define NGX_CONFIGURE " --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/run/nginx.pid --lock-path=/var/lock/nginx.lock --user=www-data --group=www-data --build=Ubuntu --with-http_ssl_module --with-stream --with-mail=dynamic --with-http_mp4_module --with-http_flv_module --with-http_stub_status_module --add-module=/home/hmcheng/Downloads/nginx-rtmp-module-master --add-module=/home/hmcheng/Downloads/nginx-module-vts-master"
 
 #ifndef NGX_COMPILER
-#define NGX_COMPILER  "gcc 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) "
+#define NGX_COMPILER  "gcc 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.6) "
 #endif
 
 
@@ -383,8 +383,18 @@
 #endif
 
 
+#ifndef NGX_STAT_STUB
+#define NGX_STAT_STUB  1
+#endif
+
+
 #ifndef NGX_STREAM_UPSTREAM_ZONE
 #define NGX_STREAM_UPSTREAM_ZONE  1
+#endif
+
+
+#ifndef NGX_STAT_STUB
+#define NGX_STAT_STUB  1
 #endif
 
 

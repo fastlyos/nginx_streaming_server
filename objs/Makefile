@@ -125,7 +125,7 @@ STREAM_DEPS = src/stream/ngx_stream.h \
 STREAM_INCS = -I src/stream
 
 
-ADDON_DEPS = $(CORE_DEPS)                                                                   /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_amf.h                               /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_bandwidth.h                         /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_cmd_module.h                        /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_codec_module.h                      /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_eval.h                              /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp.h                                   /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_version.h                           /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_live_module.h                       /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_netcall_module.h                    /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_play_module.h                       /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_record_module.h                     /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_relay_module.h                      /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_streams.h                           /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_bitop.h                             /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_proxy_protocol.h                    /home/hmcheng/Downloads/nginx-rtmp-module-master/hls/ngx_rtmp_mpegts.h                        /home/hmcheng/Downloads/nginx-rtmp-module-master/dash/ngx_rtmp_mp4.h                           $(HTTP_DEPS) $(MAIL_DEPS) $(STREAM_DEPS)
+ADDON_DEPS = $(CORE_DEPS)                                                                   /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_amf.h                               /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_bandwidth.h                         /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_cmd_module.h                        /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_codec_module.h                      /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_eval.h                              /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp.h                                   /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_version.h                           /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_live_module.h                       /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_netcall_module.h                    /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_play_module.h                       /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_record_module.h                     /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_relay_module.h                      /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_streams.h                           /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_bitop.h                             /home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_proxy_protocol.h                    /home/hmcheng/Downloads/nginx-rtmp-module-master/hls/ngx_rtmp_mpegts.h                        /home/hmcheng/Downloads/nginx-rtmp-module-master/dash/ngx_rtmp_mp4.h                                             /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_module.h                       /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_variables.h                    /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_string.h                       /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_shm.h                          /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_node.h                         /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_filter.h                       /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_control.h                      /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_limit.h                        /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_display.h                      /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_set.h                          /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_dump.h                         /home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_module_html.h                   $(HTTP_DEPS) $(MAIL_DEPS) $(STREAM_DEPS)
 
 
 build:	binary modules manpage
@@ -254,6 +254,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
 	objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
 	objs/src/http/modules/ngx_http_upstream_zone_module.o \
+	objs/src/http/modules/ngx_http_stub_status_module.o \
 	objs/src/stream/ngx_stream.o \
 	objs/src/stream/ngx_stream_variables.o \
 	objs/src/stream/ngx_stream_script.o \
@@ -307,6 +308,17 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/addon/dash/ngx_rtmp_mp4.o \
 	objs/addon/nginx-rtmp-module-master/ngx_rtmp_stat_module.o \
 	objs/addon/nginx-rtmp-module-master/ngx_rtmp_control_module.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_module.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_variables.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_string.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_shm.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_node.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_filter.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_control.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_limit.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_display.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_set.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_dump.o \
 	objs/ngx_modules.o
 
 	$(LINK) -o objs/nginx \
@@ -432,6 +444,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
 	objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
 	objs/src/http/modules/ngx_http_upstream_zone_module.o \
+	objs/src/http/modules/ngx_http_stub_status_module.o \
 	objs/src/stream/ngx_stream.o \
 	objs/src/stream/ngx_stream_variables.o \
 	objs/src/stream/ngx_stream_script.o \
@@ -485,6 +498,17 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/addon/dash/ngx_rtmp_mp4.o \
 	objs/addon/nginx-rtmp-module-master/ngx_rtmp_stat_module.o \
 	objs/addon/nginx-rtmp-module-master/ngx_rtmp_control_module.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_module.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_variables.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_string.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_shm.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_node.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_filter.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_control.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_limit.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_display.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_set.o \
+	objs/addon/src/ngx_http_vhost_traffic_status_dump.o \
 	objs/ngx_modules.o \
 	-ldl -lpthread -lcrypt -lpcre -lssl -lcrypto -ldl -lz \
 	-Wl,-E
@@ -1354,6 +1378,13 @@ objs/src/http/modules/ngx_http_upstream_zone_module.o:	$(CORE_DEPS) $(HTTP_DEPS)
 		src/http/modules/ngx_http_upstream_zone_module.c
 
 
+objs/src/http/modules/ngx_http_stub_status_module.o:	$(CORE_DEPS) $(HTTP_DEPS) \
+	src/http/modules/ngx_http_stub_status_module.c
+	$(CC) -c $(CFLAGS) $(CORE_INCS) $(HTTP_INCS) \
+		-o objs/src/http/modules/ngx_http_stub_status_module.o \
+		src/http/modules/ngx_http_stub_status_module.c
+
+
 objs/src/stream/ngx_stream.o:	$(CORE_DEPS) $(STREAM_DEPS) \
 	src/stream/ngx_stream.c
 	$(CC) -c $(CFLAGS) $(CORE_INCS) $(STREAM_INCS) \
@@ -1725,6 +1756,83 @@ objs/addon/nginx-rtmp-module-master/ngx_rtmp_control_module.o:	$(ADDON_DEPS) \
 		/home/hmcheng/Downloads/nginx-rtmp-module-master/ngx_rtmp_control_module.c
 
 
+objs/addon/src/ngx_http_vhost_traffic_status_module.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_module.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_module.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_module.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_variables.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_variables.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_variables.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_variables.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_string.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_string.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_string.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_string.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_shm.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_shm.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_shm.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_shm.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_node.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_node.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_node.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_node.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_filter.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_filter.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_filter.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_filter.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_control.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_control.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_control.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_control.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_limit.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_limit.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_limit.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_limit.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_display.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_display.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_display.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_display.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_set.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_set.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_set.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_set.c
+
+
+objs/addon/src/ngx_http_vhost_traffic_status_dump.o:	$(ADDON_DEPS) \
+	/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_dump.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/src/ngx_http_vhost_traffic_status_dump.o \
+		/home/hmcheng/Downloads/nginx-module-vts-master/src/ngx_http_vhost_traffic_status_dump.c
+
+
 modules:	objs/ngx_mail_module.so
 
 objs/ngx_mail_module.so:	objs/src/mail/ngx_mail.o \
@@ -1909,7 +2017,7 @@ install:	build
 		|| mkdir -p '$(DESTDIR)/var/log/nginx'
 
 	test -d '$(DESTDIR)/usr/share/nginx/html' \
-		|| cp -R docs/html '$(DESTDIR)/usr/share/nginx'
+		|| cp -R html '$(DESTDIR)/usr/share/nginx'
 
 	test -d '$(DESTDIR)/var/log/nginx' \
 		|| mkdir -p '$(DESTDIR)/var/log/nginx'

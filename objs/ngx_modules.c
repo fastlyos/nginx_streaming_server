@@ -65,8 +65,10 @@ extern ngx_module_t  ngx_http_upstream_ip_hash_module;
 extern ngx_module_t  ngx_http_upstream_least_conn_module;
 extern ngx_module_t  ngx_http_upstream_keepalive_module;
 extern ngx_module_t  ngx_http_upstream_zone_module;
+extern ngx_module_t  ngx_http_stub_status_module;
 extern ngx_module_t  ngx_rtmp_stat_module;
 extern ngx_module_t  ngx_rtmp_control_module;
+extern ngx_module_t  ngx_http_vhost_traffic_status_module;
 extern ngx_module_t  ngx_http_write_filter_module;
 extern ngx_module_t  ngx_http_header_filter_module;
 extern ngx_module_t  ngx_http_chunked_filter_module;
@@ -158,8 +160,10 @@ ngx_module_t *ngx_modules[] = {
     &ngx_http_upstream_least_conn_module,
     &ngx_http_upstream_keepalive_module,
     &ngx_http_upstream_zone_module,
+    &ngx_http_stub_status_module,
     &ngx_rtmp_stat_module,
     &ngx_rtmp_control_module,
+    &ngx_http_vhost_traffic_status_module,
     &ngx_http_write_filter_module,
     &ngx_http_header_filter_module,
     &ngx_http_chunked_filter_module,
@@ -253,8 +257,10 @@ char *ngx_module_names[] = {
     "ngx_http_upstream_least_conn_module",
     "ngx_http_upstream_keepalive_module",
     "ngx_http_upstream_zone_module",
+    "ngx_http_stub_status_module",
     "ngx_rtmp_stat_module",
     "ngx_rtmp_control_module",
+    "ngx_http_vhost_traffic_status_module",
     "ngx_http_write_filter_module",
     "ngx_http_header_filter_module",
     "ngx_http_chunked_filter_module",
