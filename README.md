@@ -28,3 +28,6 @@ To monitor traffic, server can install:
 - wondershaper (clone from git and sudo make install)
 - nethogs 
 - etherape
+
+To test for http request timing
+$ curl -s -w "%{time_total}\n" -o /dev/null http://172.18.3.225
