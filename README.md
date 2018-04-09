@@ -31,3 +31,7 @@ To monitor traffic, server can install:
 
 To test for http request timing
 $ curl -s -w "%{time_total}\n" -o /dev/null http://172.18.3.225
+
+To test the traffic in nginx, use "ngxtop"
+$ pip install ngxtop
+$ ngxtop -l /var/log/nginx/access.log
