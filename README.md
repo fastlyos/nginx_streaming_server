@@ -15,7 +15,7 @@ $ sudo apt install ffmpeg libav-tools x264 x265
 To simulate the client traffic, 
 we use
 -docker
--docker-compose (version 1.18.0 or above)
+-docker-compose (version 1.20.0 or above, support variable substitution)
 -vlc (version 2.2.7 or higher) ( Need some modification in order to run as root)
 
 build image with vlc installed.
@@ -35,3 +35,6 @@ $ curl -s -w "%{time_total}\n" -o /dev/null http://172.18.3.225
 To test the traffic in nginx, use "ngxtop"
 $ pip install ngxtop
 $ ngxtop -l /var/log/nginx/access.log
+
+To run the vlc_gui demo.py, need to install pyQt4 (also qt-creator if need to edit)
+$ sudo apt-get install python-qt4 qt4-designer
