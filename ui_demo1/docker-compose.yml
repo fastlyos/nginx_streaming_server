@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  app:
+    image: vlc_img
+    stdin_open: true
+    tty: true
+    command: bash -c "sed -i 's/geteuid/getppid/' /usr/bin/vlc && cvlc --verbose=3 -Vdummy http://172.18.3.225/hls/sample9.m3u8"
