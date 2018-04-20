@@ -37,4 +37,4 @@ $ pip install ngxtop
 $ ngxtop -l /var/log/nginx/access.log
 
 To run the vlc_gui demo.py, need to install pyQt4 (also qt-creator if need to edit)
-$ sudo apt-get install python-qt4 qt4-designer
+$ sudo apt-get install python-qt4 qt4-designer python-pyqt5 python-pyqt5.qtmultimedia
