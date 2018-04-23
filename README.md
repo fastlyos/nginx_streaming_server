@@ -41,3 +41,4 @@ $ sudo apt-get install python-qt4 qt4-designer python-pyqt5 python-pyqt5.qtmulti
 
 Using Pyqt.Phonon, need to install gStreamer and its plugin
 $sudo apt-get install libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools
+$sudo apt-get install python3-pyqt4.phonon
