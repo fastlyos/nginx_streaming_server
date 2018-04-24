@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  app-gui:
+    image: vlc_img
+    stdin_open: true
+    tty: true
+    network_mode: "host"
+    environment:
+     - DISPLAY
+    volumes:
+     - /tmp/.X11-unix
+    command: bash -c "sed -i 's/geteuid/getppid/' /usr/bin/vlc && vlc --verbose=3 --no-qt-video-autoresize --qt-minimal-view --no-audio --no-qt-privacy-ask http://172.18.3.225/hls/sample9.m3u8"
