@@ -45,3 +45,13 @@ $sudo apt-get install python3-pyqt4.phonon
 
 Install mpv player and libmpv.so
 $sudo apt-get install mpv libmpv-dev
+
+Use goaccess to analyze and plot statistic of nginx server access log
+Installation: https://blog.gtwang.org/linux/analysing-nginx-logs-using-goaccess/
+
+Command line monitoring
+$ goaccess -f /var/log/nginx/access.log
+
+HTML monitoring
+$ goaccess -f /var/log/nginx/access.log -o /home/hmcheng/nginx/html/report.html --log-format=COMBINED --real-time-html 
+and go to localhost/report.html
