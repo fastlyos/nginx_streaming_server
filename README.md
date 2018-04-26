@@ -55,6 +55,9 @@ $ goaccess -f /var/log/nginx/access.log
 HTML monitoring
 $ goaccess -f /var/log/nginx/access.log -o /home/hmcheng/nginx/html/report.html --log-format=COMBINED --real-time-html --html-prefs='{"theme":"bright","perPage":10}' 
 
+within 1 hour
+$ sed -n '/'$(date '+%d\/%b\/%Y' -d '1 hour ago')'/,$ p' /var/log/nginx/access.log | goaccess -a -o /home/hmcheng/nginx/html/report.html --log-format=COMBINED --real-time-html --html-prefs='{"theme":"bright","perPage":10}' 
+
 and go to localhost/report.html
 
 
