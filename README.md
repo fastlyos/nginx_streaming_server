@@ -56,3 +56,6 @@ HTML monitoring
 $ goaccess -f /var/log/nginx/access.log -o /home/hmcheng/nginx/html/report.html --log-format=COMBINED --real-time-html --html-prefs='{"theme":"bright","perPage":10}' 
 
 and go to localhost/report.html
+
+
+Install nginx amplify
