@@ -82,3 +82,5 @@ $ netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
 
 Get the most recent 20 bytes sent of the HTTP request to the server
 $ sudo tail -20 /var/log/nginx/access.log| awk '{print $10}'
+The corresponding remote address (i.e. client address)
+$ sudo tail -20 /var/log/nginx/access.log| awk '{print $1}'
