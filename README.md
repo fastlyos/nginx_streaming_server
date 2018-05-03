@@ -75,3 +75,7 @@ log_format  main_ext  '$remote_addr - $remote_user [$time_local] "$request" '
                       
 access_log  /var/log/nginx/access.log  main_ext;
 error_log  /var/log/nginx/error.log warn;
+
+
+Command to get list of unique IP visiting the server
+$ netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
