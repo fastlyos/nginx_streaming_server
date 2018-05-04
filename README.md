@@ -84,3 +84,7 @@ Get the most recent 20 bytes sent of the HTTP request to the server
 $ sudo tail -20 /var/log/nginx/access.log| awk '{print $10}'
 The corresponding remote address (i.e. client address)
 $ sudo tail -20 /var/log/nginx/access.log| awk '{print $1}'
+
+nginx access.log request time definition
+$request_time
+request processing time in seconds with a milliseconds resolution; time elapsed between the first bytes were read from the client and the log write after the last bytes were sent to the client
