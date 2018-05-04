@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+window.onload = function () 
+{
+
+var num_of_series=5;
+var dataPoints = [[]];
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	zoomEnabled: true,
+	title: {
+		text: "Bandwidth of all clients"
+	},
+	axisX: {
+		title: "chart updates every sec"
+	},
+	axisY:{
+		suffix: "kbps",
+		includeZero: false
+	}, 
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		verticalAlign: "top",
+		fontSize: 22,
+		fontColor: "dimGrey",
+		itemclick : toggleDataSeries
+	}
+});
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+var updateInterval = 1000; //in ms
+// initial value
+var yValueInit = 600; 
+//var yValue2 = 605;
+
+//var time = Date.now();
+// starting at 9.30 am
+var time = new Date();
+//time = Date.now();
+// time.setHours(9);
+// time.setMinutes(30);
+// time.setSeconds(00);
+// time.setMilliseconds(00);
+
+function updateChart(count)
+{
+	count = count || 1;
+	var deltaY; //1, deltaY2;
+	for (var i = 0; i < count; i++)
+	{
+		time.setTime(time.getTime()+ updateInterval);
+		for(var k=0; k<num_of_series; k++)
+		{
+			deltaY = .5 + Math.random() *(-.5-.5);
+
+			// adding random value and rounding it to two digits. 
+			yValueInit = Math.round((yValueInit + deltaY)*100)/100;
+
+			// pushing the new values
+			dataPoints[k].push({
+				x: time.getTime(),
+				y: yValueInit
+			});		
+
+			chart.options.data[k].legendText = " Client " + k.toString() + "  :" + yValueInit + "kbps";	
+		}
+
+	}
+	chart.render();
+}
+// generates first set of dataPoints 
+
+chart.options.data = [];
+for(var z=0; z<num_of_series;z++)
+{
+	dataPoints.push([]);
+	var series = {				
+			type: "line",
+			xValueType: "dateTime",
+			yValueFormatString: "####.00kbps",
+			showInLegend: true,
+			name: "Client "+ z.toString() ,
+			dataPoints: dataPoints[z]
+	};
+	chart.options.data.push(series);
+}
+updateChart(100);	
+setInterval(function(){updateChart()}, updateInterval);
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
