@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head></head>
+<body>
+	<div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		  <!-- <table id="contents" style="width:100%; height:400px;" border>
+	  </table> -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="../src/jquery.csv.js"></script>    
+    
+<script>
+window.onload = function () 
+{
+
+//var num_of_series=5;
+var dataPoints = [[]];
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	zoomEnabled: true,
+	title: {
+		text: "Bandwidth of all clients"
+	},
+	axisX: {
+		title: "chart updates every sec"
+	},
+	axisY:{
+		suffix: "kbps",
+		includeZero: false
+	}, 
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		verticalAlign: "top",
+		fontSize: 22,
+		fontColor: "dimGrey",
+		itemclick : toggleDataSeries
+	}
+});
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+	var data = new Array();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                //alert(allText);
+
+				data = $.csv.toArrays(allText);
+				// var html = '';
+				// for(var row in data) {
+				// html += '<tr>\r\n';
+				// for(var item in data[row]) {
+				// 	html += '<td>' + data[row][item] + '</td>\r\n';
+				// }
+				// html += '</tr>\r\n';
+				// }
+				// $('#contents').html(html);
+				
+            }
+        }
+    }
+    rawFile.send(null);
+	return data;
+}
+
+var updateInterval = 1000; //in ms
+// initial value
+var yValueInit = 600; 
+//var yValue2 = 605;
+
+//var time = Date.now();
+// starting at 9.30 am
+var time = new Date();
+//time = Date.now();
+// time.setHours(9);
+// time.setMinutes(30);
+// time.setSeconds(00);
+// time.setMilliseconds(00);
+
+function updateChart()
+{
+	//count = count || 1;
+	//var deltaY; 
+	//for (var i = 0; i < count; i++)
+	//{
+	var new_bd_data = readTextFile("bandwidth.txt");	
+	time.setTime(time.getTime()+ updateInterval);
+	for(var k=0; k<num_of_series; k++)
+	{
+		//deltaY = .5 + Math.random() *(-.5-.5);
+
+		// adding random value and rounding it to two digits. 
+		//yValueInit = Math.round((yValueInit + deltaY)*100)/100;
+
+		// pushing the new values
+		dataPoints[k].push({x: time.getTime(), y: parseInt(new_bd_data[1+k][1])});		
+		chart.options.data[k].legendText = " Client " + new_bd_data[1+k][0] + "  :" + new_bd_data[1+k][1] + "kbps";	
+	}
+
+	//}
+	chart.render();
+}
+// generates first set of dataPoints 
+var init_bd_data = readTextFile("bandwidth.txt");
+var num_of_series = init_bd_data.length-1;
+chart.options.data = [];
+for(var z=0; z<num_of_series;z++)
+{
+	dataPoints.push([]);
+	var series = {				
+			type: "line",
+			xValueType: "dateTime",
+			yValueFormatString: "####.00kbps",
+			showInLegend: true,
+			name: "Client "+ init_bd_data[1+z][0] ,
+			dataPoints: dataPoints[z]
+	};
+	chart.options.data.push(series);
+}
+//updateChart(100);	
+setInterval(function(){updateChart()}, updateInterval);
+
+
+
+// function printTable(filename) {
+//   var reader = new FileReader();
+//   var file = new File([""], filename, {type: 'text/plain'});
+//   reader.readAsDataURL(file);
+//   reader.onload = function(event){
+//     var csv = event.target.result;
+//     var data = $.csv.toArrays(csv);
+//     var html = '';
+//     for(var row in data) {
+//       html += '<tr>\r\n';
+//       for(var item in data[row]) {
+//         html += '<td>' + data[row][item] + '</td>\r\n';
+//       }
+//       html += '</tr>\r\n';
+//     }
+//     $('#contents').html(html);
+//   };
+//   reader.onerror = function(){ alert('Unable to read ' + file.fileName); };
+// }
+    
+	
+
+}
+</script>
+
+
+</body>
+</html>
