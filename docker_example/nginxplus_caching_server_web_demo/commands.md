@@ -11,3 +11,6 @@ $ sudo docker ps
 $ sudo docker login
 $ sudo docker tag nginxplus mandog/nginx_cache_server_web_demo
 $ sudo docker push mandog/nginx_cache_server_web_demo
+
+#Run a shell to access the volume (i.e. running a helper container)
+$ sudo docker run -it --volumes-from mynginxplus --name mynginx_files debian /bin/bash
