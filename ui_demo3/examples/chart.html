@@ -21,7 +21,6 @@
 	<input name="Submit1" type="submit" value="submit" onclick="return SetClientBandwidth();"/>
 
 <br>
-<a href="http://172.18.3.227:80/api/1/http/keyvals/ratezone" target="blank">Go to key-val store to debug</a>
 </center>
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -29,7 +28,10 @@
 <script src="../src/jquery.csv.js"></script>    
     
 <script>
-var Nginx_keyval_api_link = "http://172.18.3.227:80/api/1/http/keyvals/ratezone";
+var ip = location.host;
+//alert(ip);
+var Nginx_keyval_api_link = "http://" + ip + ":80/api/1/http/keyvals/ratezone";
+document.write("<a href='http://" + ip + ":80/api/1/http/keyvals/ratezone' target='blank'>Go to key-val store to debug</a>");
 function SetClientBandwidth()
 {
 	var client_ip = document.getElementById("client").value;
