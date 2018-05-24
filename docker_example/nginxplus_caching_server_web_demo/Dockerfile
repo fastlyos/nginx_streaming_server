@@ -1,6 +1,8 @@
 #use ubuntu 16.04 minimal version
+#use ubuntu 16.04 minimal version
 FROM ubuntu:16.04
 
+USER root
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
 # Download certificate and key from the customer portal (https://cs.nginx.com)
@@ -49,12 +51,23 @@ COPY demo /usr/share/nginx/html/demo
 
 # folder for the nginx.conf
 COPY conf /etc/nginx
+COPY tools /etc/nginx
 
 # folder for the reverse proxy cache
 COPY cache /usr/share/nginx/html/cache 
 
+RUN chmod -R 777 /var/log/nginx \
+&& chmod -R 777 /var/run \
+&& chmod -R 777 /etc/nginx/*
+#VOLUME /usr/share/nginx/html
+#VOLUME /etc/nginx
 
-VOLUME /usr/share/nginx/html
-VOLUME /etc/nginx
+# Need to do this for file permission problem of the underlying file system
+RUN chmod 777 /usr/share/nginx/html/demo/get_client_bw_loop.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+# since dockerfile doesn't accept 2 CMD, need to run together
+# not using nginx -g 'daemon off;' since want to run nginx in background and run the bandwidth 
+# estimation script in foreground
+CMD ["sh","-c","nginx ; /usr/share/nginx/html/demo/get_client_bw_loop.sh"]
+
+
