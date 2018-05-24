@@ -1,5 +1,6 @@
 FROM ubuntu:16.04
 
+USER root
 #Install ffmpeg for transcoding
 RUN  apt-get update && apt-get install software-properties-common build-essential -y && add-apt-repository ppa:mc3man/trusty-media &&  apt-get install -y  \
 		ffmpeg libav-tools x264 x265 libpcre3 libpcre3-dev openssl libssl-dev\
@@ -13,11 +14,17 @@ RUN make -j 4
 RUN make install
 RUN nginx -V
 
+
 #copy those content to the docker image
 COPY mnt /usr/share/nginx/html/mnt
 COPY conf /etc/nginx
-VOLUME /usr/share/nginx/html
-VOLUME /etc/nginx
+
+RUN chmod -R 777 /var/log/nginx \
+&& chmod -R 777 /var/run \
+&& chmod -R 777 /etc/nginx/*
+
+#VOLUME /usr/share/nginx/html
+#VOLUME /etc/nginx
 
 EXPOSE 80
 #1935 is standard rtmp port
