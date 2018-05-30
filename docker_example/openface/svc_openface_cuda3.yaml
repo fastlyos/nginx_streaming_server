@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openface-cuda3
+spec:
+  selector:
+    app: openface-cuda3
+  ports:
+    - port: 8888 

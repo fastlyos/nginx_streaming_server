@@ -1,0 +1,1 @@
+chcon -t container_file_t /dev/nvidia*

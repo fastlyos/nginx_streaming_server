@@ -1,0 +1,1 @@
+oc patch dc/$1 --patch '{"spec":{"template":{"spec":{"serviceAccountName": "useroot"}}}}'
