@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html>
+<head></head>
+<body>
+<div id="chartContainer" style="height: 770px; max-width: 1520px; margin: 0px auto;"></div>
+<br><br><br>
+<center>
+	Set clients bandwidth 
+	<select id="client"></select>
+	<select id="bandwidth_type">
+	<option value="4k">4kbps</option>
+	<option value="8k">8kbps</option>
+	<option value="16k">16kbps</option>
+	<option value="32k">32kbps</option>
+	<option value="64k">64kbps</option>
+	<option value="128k">128kbps</option>
+	<option value="256k">256kbps</option>
+	<option value="512k">512kbps</option>
+	<option value="default" selected="selected">Unlimited</option>
+	</select>
+	<input name="Submit1" type="submit" value="submit" onclick="return SetClientBandwidth();"/>
+
+<br>
+</center>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="../src/jquery.csv.js"></script>    
+    
+<script>
+var ip = location.host;
+//alert(ip);
+var Nginx_keyval_api_link = "http://" + ip + ":80/api/1/http/keyvals/ratezone";
+document.write("<a href='http://" + ip + ":80/api/1/http/keyvals/ratezone' target='blank'>Go to key-val store to debug</a>");
+function SetClientBandwidth()
+{
+	var client_ip = document.getElementById("client").value;
+	var bandwidth_type = document.getElementById("bandwidth_type").value;
+	//var text_to_send = "'{\"" + client_ip + "\":\"" + bandwidth_type + "\"}'";
+	var data = {};
+	data[client_ip]=bandwidth_type;
+	var data_to_send = JSON.stringify(data);
+
+	//Send the http Patch method to nginx server to update the key-value store
+	var requestp = new XMLHttpRequest();
+	requestp.onload = function () {
+		//alert("response status: " + x.status + "\nresponse : " + x.response + 
+				//"\nresponse type" + x.responseType + "\nresponse text: " + x.responseText);
+
+		//If error, it means the key doesn't exist, use POST instead
+		if(requestp.status>204)
+		{
+			//alert("response status: " + requestp.status + "\nresponse : " + requestp.response);
+			var requestx = new XMLHttpRequest(); 
+			requestx.onload = function () {
+				if(requestx.status>204)
+				{
+					alert("response status: " + requestx.status + "\nresponse : " + requestx.response);
+				}
+				//else alert("Bandwidth is set successfully!")
+			}
+			requestx.open("POST", Nginx_keyval_api_link);
+			requestx.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			requestx.send(data_to_send);
+		}
+		//else alert("Bandwidth is set successfully!")
+	}
+
+	requestp.open("PATCH", Nginx_keyval_api_link);
+	requestp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	requestp.send(data_to_send);	
+}
+
+window.onload = function () 
+{
+	//var num_of_series=0; // store the latest num of clients, can increase/decrease dynamically
+	var dataPoints = [[]];
+	var ip_series_LUT = new Map(); // store the mapping between the client ip -> index of data series
+	var updateInterval = 1000; //in ms
+	var time = new Date(); // the graph x-axis time start from the time where the broswer open this page
+
+	var chart = new CanvasJS.Chart("chartContainer", {
+		zoomEnabled: true,
+		title: {
+			text: "Estimated bandwidth of all clients"
+		},
+		axisX: {
+			
+		},
+		axisY:{
+			logarithmic: true,
+			suffix: "kbps",
+			includeZero: false
+		}, 
+		toolTip: {
+			shared: true
+		},
+		legend: {
+			cursor:"pointer",
+			verticalAlign: "top",
+			fontSize: 22,
+			fontColor: "dimGrey",
+			itemclick : toggleDataSeries
+		}
+	});
+
+	chart.options.data = [];
+
+	function toggleDataSeries(e) {
+		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+			e.dataSeries.visible = false;
+		}
+		else {
+			e.dataSeries.visible = true;
+		}
+		chart.render();
+	}
+
+	//Given a file url, output a csv-formatted object
+	function readTextFileToCsv(file)
+	{
+		var rawFile = new XMLHttpRequest();
+		var data = new Array();
+		rawFile.open("GET", file, false);
+		rawFile.onreadystatechange = function ()
+		{
+			if(rawFile.readyState === 4)
+			{
+				if(rawFile.status === 200 || rawFile.status == 0)
+				{
+					var allText = rawFile.responseText;
+					//alert(allText);
+					data = $.csv.toArrays(allText);			
+				}
+			}
+		}
+		rawFile.send(null);
+		return data;
+	}
+
+	function UpdateClientComboBox(data)
+	{
+		if(data.length>1)
+		{
+			var x = document.getElementById("client");
+			//x.innerHTML = "";
+			for(var q=0; q<data.length-1; q++)
+			{
+				var ip = data[1+q][0].trim();
+				var exist=false;
+				for(var s=0; s<x.children.length; s++)
+				{
+					if(x.children[s].text == ip)
+					{
+						exist=true;
+						break;
+					}
+				}
+
+				if(!exist)
+				{
+					var option = document.createElement("option");
+					option.text = ip;
+					option.value = ip;
+					if(q==0) option.selected=true;
+					x.add(option);					
+				}
+
+			}			
+		}
+
+	}
+
+	function updateChart()
+	{
+		time.setTime(time.getTime()+ updateInterval);		
+		var bd_data = readTextFileToCsv("bandwidth.txt");	
+
+		for(var p=0; p< bd_data.length-1; p++)
+		{
+			var client_ip = bd_data[1+p][0];
+			var client_bw = bd_data[1+p][1];
+			var client_type = bd_data[1+p][2];
+
+			//If this client not exist, update the series array
+			if(!ip_series_LUT.has(client_ip))
+			{
+				var series = {				
+					type: "line",
+					xValueType: "dateTime",
+					yValueFormatString: "####.00kbps",
+					showInLegend: true,
+					name: "Client "+ client_ip + "(" + client_type + ")",
+					dataPoints: dataPoints[dataPoints.length-1],
+					fontsize: 15
+				};
+				chart.options.data.push(series);
+				ip_series_LUT.set(client_ip, dataPoints.length-1);
+				dataPoints.push([]);
+				//UpdateClientComboBox(bd_data);
+			}
+
+			// pushing the new values
+			var index = ip_series_LUT.get(client_ip);
+			dataPoints[index].push({x: time.getTime(), y: parseInt(client_bw)});		
+			chart.options.data[index].legendText = " Client " + client_ip + "  :" + client_bw + "kbps";
+		}
+		chart.render();
+
+		//Update the select combobox if num of client has changed
+		var x = document.getElementById("client");
+		if(x.children.length != chart.options.data.length)
+		{
+			UpdateClientComboBox(bd_data);
+		}
+	}
+
+	setInterval(function(){updateChart()}, updateInterval);
+
+}
+</script>
+
+
+</body>
+</html>
