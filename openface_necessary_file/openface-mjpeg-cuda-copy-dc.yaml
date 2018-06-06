@@ -1,0 +1,115 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  generation: 6
+  labels:
+    app: openface-mjpeg-cuda-copy
+  name: openface-mjpeg-cuda-copy
+  namespace: nvidia
+spec:
+  replicas: 1
+  selector:
+    app: openface-mjpeg-cuda-copy
+    deploymentconfig: openface-mjpeg-cuda-copy
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: openface-mjpeg-cuda-copy
+        deploymentconfig: openface-mjpeg-cuda-copy
+    spec:
+      containers:
+        - image: >-
+            mandog/openface-mjpeg-cuda-copy
+          imagePullPolicy: Always
+          name: openface-mjpeg-cuda-copy
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+            - containerPort: 9000
+              protocol: TCP
+          resources:
+            limits:
+              nvidia.com/gpu: '1'
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: useroot
+      serviceAccountName: useroot
+      terminationGracePeriodSeconds: 30
+  test: false
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: openface-mjpeg-cuda-copy
+  name: openface-mjpeg-cuda-copy
+  namespace: nvidia
+spec:
+  ports:
+    - name: 8000-tcp
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+    - name: 9000-tcp
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+  selector:
+    deploymentconfig: openface-mjpeg-cuda-copy
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: openface-mjpeg-cuda-copy
+  name: openface-mjpeg-cuda-copy
+  namespace: nvidia
+spec:
+  host: openface-mjpeg-cuda-copy-nvidia.apps.172.18.2.132.nip.io
+  port:
+    targetPort: 8000-tcp
+  tls:
+    termination: passthrough
+  to:
+    kind: Service
+    name: openface-mjpeg-cuda-copy
+    weight: 100
+  wildcardPolicy: None
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: openface-mjpeg-cuda-copy
+  name: openface-mjpeg-cuda-copy-9000
+  namespace: nvidia
+spec:
+  host: 9000-openface-mjpeg-cuda-copy-nvidia.apps.172.18.2.132.nip.io
+  port:
+    targetPort: 9000-tcp
+  tls:
+    termination: passthrough
+  to:
+    kind: Service
+    name: openface-mjpeg-cuda-copy
+    weight: 100
+  wildcardPolicy: None
