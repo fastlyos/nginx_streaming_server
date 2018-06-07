@@ -45,7 +45,7 @@ spec:
     spec:
       containers:
         - image: >-
-            mandog/nginx_cache_server_web_demo@sha256:d96eaec2f53eb5d0d86d4ea34c412a1c1740212e49d6689cbb3f88f412cd4027
+            mandog/nginx_cache_server_web_demo
           imagePullPolicy: Always
           name: mec-caching-server
           ports:
