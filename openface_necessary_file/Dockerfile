@@ -89,22 +89,43 @@ RUN luarocks install cunn
 #CMD /bin/bash -l -c '/root/openface/demos/web/start-servers.sh'
 
 
+#Install cudnn v7 runtime for dlib to use cuda
+# RUN echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1404/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+
+# ENV CUDNN_VERSION 5.1.10
+# LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
+
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#             libcudnn5=$CUDNN_VERSION-1+cuda8.0 \
+#             libcudnn5-dev=$CUDNN_VERSION-1+cuda8.0 && \
+#     rm -rf /var/lib/apt/lists/*
+
+# ADD libcudnn7_7.1.4.18-1+cuda8.0_amd64.deb .
+# RUN dpkg -i libcudnn7_7.1.4.18-1+cuda8.0_amd64.deb
+
+ADD cuda/include/cudnn.h /usr/local/cuda/include
+ADD cuda/lib64/libcudnn* /usr/local/cuda/lib64/
+RUN chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+
+#check if cudnn is properly installed
+RUN ls /usr/local/cuda/lib64
+RUN cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
 
 
 #Install dlib with AVX on
 #Can check AVX instruction set is supported by $grep avx /proc/cpuinfo
 RUN cd ~ && \
-    mkdir -p dlib-tmp && \
+    mkdir -p dlib-tmp &&  \
     cd dlib-tmp && \
     curl -L \
-         https://github.com/davisking/dlib/archive/v19.0.tar.gz \
+         https://github.com/davisking/dlib/archive/v19.13.tar.gz \
          -o dlib.tar.bz2 && \
     tar xf dlib.tar.bz2 && \
-    cd dlib-19.0/python_examples && \
+    cd dlib-19.13/python_examples && \
     mkdir build && \
     cd build && \
     cmake ../../tools/python -DUSE_AVX_INSTRUCTIONS=ON && \
-    cmake --build . --config Release  && \
+    cmake --build . --config Release && \
     cp dlib.so /usr/local/lib/python2.7/dist-packages
 
 #correct the system for logging comparison
@@ -126,6 +147,7 @@ ADD new_file/start-servers-install.sh /root/openface/demos/web
 ADD new_file/websocket-server.py /root/openface/demos/web
 ADD new_file/start-servers-verbose.sh /root/openface/demos/web
 ADD new_file/align_dlib.py /root/openface/openface
+ADD new_file/main.css /root/openface/demos/web/css
 
 RUN chmod -R 777 /root/openface/demos/web/*
 
