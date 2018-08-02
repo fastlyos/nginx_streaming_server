@@ -88,3 +88,31 @@ $ sudo tail -20 /var/log/nginx/access.log| awk '{print $1}'
 nginx access.log request time definition
 $request_time
 request processing time in seconds with a milliseconds resolution; time elapsed between the first bytes were read from the client and the log write after the last bytes were sent to the client
+
+
+To stream rtsp to mjpeg using ffserver and ffmpeg
+
+sudo vim /etc/ffserver.conf
+MaxBandWidth 1000000
+
+<Feed monitoring1.ffm>
+File /tmp/monitoring1.ffm
+FileMaxSize 50M
+ACL allow 127.0.0.1
+</Feed>
+
+<Stream monitoring1.mjpg>
+Feed monitoring1.ffm
+Format mpjpeg
+VideoCodec mjpeg
+VideoQMin 1
+VideoQMax 5
+VideoBitRate 80000
+VideoFrameRate 10
+VideoBufferSize 150000
+VideoSize 1280x720
+NoAudio
+</Stream>
+
+$ ffserver
+$ ffmpeg -i rtsp://admin:h0940232@172.18.9.100/Streaming/Channels/1 http://localhost:8090/monitoring1.ffm
