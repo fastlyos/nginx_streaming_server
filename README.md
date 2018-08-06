@@ -116,3 +116,8 @@ NoAudio
 
 $ ffserver
 $ ffmpeg -i rtsp://admin:h0940232@172.18.9.100/Streaming/Channels/1 http://localhost:8090/monitoring1.ffm
+
+Also need to open the port 8090 in centos 7
+$ sudo iptables -I INPUT -p tcp -m tcp --dport 8090 -j ACCEPT
+$ sudo iptables -I INPUT -p udp -m udp --dport 8090 -j ACCEPT
+$ sudo service iptables save
