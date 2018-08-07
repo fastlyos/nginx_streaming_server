@@ -1,0 +1,2 @@
+ffmpeg -i rtsp://admin:h0940232@172.18.9.100/Streaming/Channels/1 http://localhost:8090/monitoring1.ffm
+
