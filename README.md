@@ -127,3 +127,16 @@ $sed -i -- "s/old_address/new_address/g" /etc/nginx/nginx.conf
 
 make nginx start as machine startup
 add "sudo nginx" in /etc/rc.local
+
+change dhcp to static ip
+edit /etc/network/interfaces
+
+auto eno1
+iface eno1 inet static
+address 172.18.3.225
+netmask 255.255.0.0
+network 172.18.0.0
+broadcast 172.18.255.255
+gateway 172.18.0.1
+dns-nameservers 8.8.8.8
+
