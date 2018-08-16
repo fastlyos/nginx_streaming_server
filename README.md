@@ -124,3 +124,6 @@ $ sudo service iptables save'
 
 change upstream ip addr in nginx.conf
 $sed -i -- "s/old_address/new_address/g" /etc/nginx/nginx.conf
+
+make nginx start as machine startup
+add "sudo nginx" in /etc/rc.local
