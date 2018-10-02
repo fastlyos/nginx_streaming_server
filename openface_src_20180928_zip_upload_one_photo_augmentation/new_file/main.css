@@ -1,0 +1,133 @@
+body {
+  padding: 10px;
+  height: 100%;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #555;
+}
+
+#videoel {
+    -ms-filter : fliph; /*IE*/
+    filter : fliph; /*IE*/
+}
+
+h1, .h1, h2, .h2, h3, .h3, {
+  margin-top: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  color: #333;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 970px;
+  }
+}
+
+.addPersonDiv{
+  max-width: 240px;
+}
+
+img {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    overflow-y: scroll;
+}
+
+.container .header {
+    text-align: center;
+    top: 0;
+    bottom: 730px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    width: 80%;
+    height: 510px;
+    /* overflow-y: scroll; */
+}
+
+.container .content {
+    top: 470px;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 67%;
+    height: auto;
+    /* overflow-y: scroll; */
+}
+
+a.remove {
+    color: red;
+    font-size: 2em;
+}
+
+ul.tabs{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+ul.tabs li{
+    background: none;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+ul.tabs li.current{
+    background: #cceeff;
+    color: #222;
+}
+
+.tab-content{
+    display: none;
+    /* background: #ededed; */
+    /* padding: 15px; */
+}
+
+.tab-content.current{
+    display: inherit;
+}
+
+.floating_container_left_up {
+    width: 240px;
+    height: 450px;
+    position:absolute;
+    left: 10px;
+    top: 20px;
+}
+
+.floating_container_left_down {
+    overflow-y: auto;
+    width: 270px;
+    height: 550px;
+    position:absolute;
+    left: 10px;
+    top: 640px;
+}
+
+.floating_container_right_up {
+    overflow-y: auto;
+    width: 245px;
+    height: 500px;
+    position:absolute;
+    right: 30px;
+    top: 475px;    
+    border: 1px solid black
+}
+
+.floating_container_right_down {
+    overflow-y: auto;
+    width: 245px;
+    height: 600px;
+    position:absolute;
+    right: 10px;
+    top: 440px;    
+    border: 1px solid black
+}
